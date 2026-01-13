@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Commerce: The Future of Shopping</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAFAF9; /* stone-50 */
+            color: #44403C; /* stone-700 */
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Custom Scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+
+        .step-card {
+            transition: all 0.3s ease;
+        }
+        .step-card.active {
+            transform: scale(1.05);
+            border-color: #0D9488; /* teal-600 */
+            background-color: #F0FDFA; /* teal-50 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals & Teal. Background: Stone-50 (#FAFAF9), Text: Stone-700 (#44403C), Primary Accent: Teal-600 (#0D9488), Secondary Accent: Amber-500 (#F59E0B). -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero Section: High-level introduction to the shift (User vs. Agent).
+         2. Interactive Workflow Comparison: A dynamic 'Flow' section where users can toggle between "The Old Way" and "The Agentic Way". 
+         3. The Protocol Engine: A card interface explaining ACP vs. UCP.
+         4. Impact Dashboard: A Chart.js visualization quantifying qualitative benefits.
+         5. Key Takeaways: A summarized list for quick synthesis.
+    -->
+    
+    <!-- Visualization & Content Choices:
+         1. Workflow Comparison: Updated Compare icon to 📉 (Analytics/Comparison) for better visual context of data processing.
+         2. Protocol Cards: Informative sections on ACP and UCP.
+         3. Impact Chart: Bar Chart showing friction reduction.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-teal-100 selection:text-teal-900">
+
+    <!-- Navigation / Header -->
+    <header class="w-full bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🤖</span>
+                <span class="font-serif font-bold text-xl text-stone-800 tracking-tight">Agentic Commerce</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <button onclick="scrollToSection('workflow')" class="text-sm font-medium text-stone-500 hover:text-teal-600 transition-colors">The Workflow</button>
+                <button onclick="scrollToSection('protocols')" class="text-sm font-medium text-stone-500 hover:text-teal-600 transition-colors">Protocols</button>
+                <button onclick="scrollToSection('impact')" class="text-sm font-medium text-stone-500 hover:text-teal-600 transition-colors">Impact</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- Hero Section -->
+        <section class="text-center space-y-6 animate-fade-in-up">
+            <div class="inline-block px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-xs font-semibold tracking-wide uppercase mb-2">Retail Innovation</div>
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-800 leading-tight">
+                From "Search & Click"<br>to <span class="text-teal-600">"Intent & Purchase"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
+                Online shopping is quietly going through a massive shift. AI agents are taking the wheel, handling the journey from discovery to checkout.
+            </p>
+            <div class="pt-4">
+                <button onclick="scrollToSection('workflow')" class="bg-stone-800 hover:bg-stone-700 text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Explore the Shift
+                </button>
+            </div>
+        </section>
+
+        <!-- Section 1: The Workflow Shift -->
+        <section id="workflow" class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8 md:p-12">
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">The Evolution of the Buying Journey</h2>
+                <p class="text-stone-600">
+                    See how the fundamental mechanics of shopping are changing. Traditional methods place the burden on the user. Agentic commerce offloads this complexity to AI.
+                </p>
+            </div>
+
+            <!-- Toggle Controls -->
+            <div class="flex justify-center mb-12">
+                <div class="bg-stone-100 p-1 rounded-lg inline-flex">
+                    <button id="btn-traditional" onclick="setMode('traditional')" class="px-6 py-2 rounded-md text-sm font-medium transition-all bg-white text-stone-800 shadow-sm">Traditional</button>
+                    <button id="btn-agentic" onclick="setMode('agentic')" class="px-6 py-2 rounded-md text-sm font-medium transition-all text-stone-500 hover:text-stone-700">Agentic AI</button>
+                </div>
+            </div>
+
+            <!-- Interactive Diagram Container -->
+            <div class="relative min-h-[200px] flex items-center justify-center">
+                <!-- Traditional Flow -->
+                <div id="flow-traditional" class="w-full flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 relative">
+                    <!-- Steps -->
+                    <div class="step-card bg-white border border-stone-200 p-4 rounded-xl text-center w-full md:w-1/5 z-10" id="t-step-1">
+                        <div class="text-2xl mb-2">🔍</div>
+                        <div class="font-bold text-stone-700">Search</div>
+                    </div>
+                    <div class="hidden md:block text-stone-300 text-xl">→</div>
+                    <!-- CHANGED: Compare Icon updated to 📉 for analytics/comparison feel -->
+                    <div class="step-card bg-white border border-stone-200 p-4 rounded-xl text-center w-full md:w-1/5 z-10" id="t-step-2">
+                        <div class="text-2xl mb-2">📉</div>
+                        <div class="font-bold text-stone-700">Compare</div>
+                    </div>
+                    <div class="hidden md:block text-stone-300 text-xl">→</div>
+                    <div class="step-card bg-white border border-stone-200 p-4 rounded-xl text-center w-full md:w-1/5 z-10" id="t-step-3">
+                        <div class="text-2xl mb-2">🖱️</div>
+                        <div class="font-bold text-stone-700">Click</div>
+                    </div>
+                    <div class="hidden md:block text-stone-300 text-xl">→</div>
+                    <div class="step-card bg-white border border-stone-200 p-4 rounded-xl text-center w-full md:w-1/5 z-10" id="t-step-4">
+                        <div class="text-2xl mb-2">💳</div>
+                        <div class="font-bold text-stone-700">Checkout</div>
+                    </div>
+                </div>
+
+                <!-- Agentic Flow (Hidden by default) -->
+                <div id="flow-agentic" class="w-full flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 absolute top-0 left-0 h-full hidden opacity-0 transition-opacity duration-500">
+                    <div class="step-card bg-teal-50 border border-teal-100 p-6 rounded-xl text-center w-full md:w-1/4 z-10 shadow-sm" id="a-step-1">
+                        <div class="text-3xl mb-2">💡</div>
+                        <div class="font-bold text-teal-900">User Intent</div>
+                        <div class="text-xs text-teal-600 mt-1">"I need X..."</div>
+                    </div>
+                    
+                    <div class="flex-1 border-t-2 border-dashed border-teal-300 mx-4 hidden md:block relative">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-2 text-teal-600 text-xs font-bold uppercase">AI Agent Processing</div>
+                    </div>
+                    
+                    <div class="step-card bg-teal-600 border border-teal-600 p-6 rounded-xl text-center w-full md:w-1/4 z-10 shadow-lg" id="a-step-2">
+                        <div class="text-3xl mb-2 text-white">🛍️</div>
+                        <div class="font-bold text-white">Purchase</div>
+                        <div class="text-xs text-teal-100 mt-1">Done.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Control -->
+            <div class="mt-12 text-center">
+                <button id="simulate-btn" onclick="runSimulation()" class="text-teal-600 hover:text-teal-700 font-semibold text-sm flex items-center justify-center mx-auto space-x-2 border border-teal-200 px-4 py-2 rounded-full hover:bg-teal-50 transition-colors">
+                    <span>▶ Run Journey Simulation</span>
+                </button>
+                <p id="sim-text" class="text-xs text-stone-400 mt-2 h-4 transition-all">Click to see how it works</p>
+            </div>
+        </section>
+
+        <!-- Section 2: The Protocols (ACP & UCP) -->
+        <section id="protocols">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">The New Standards</h2>
+                <p class="text-stone-600 max-w-3xl">
+                    For AI to handle shopping reliably, we need a shared language. Two major open standards have emerged.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- ACP Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-stone-800 p-6 text-white">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold">ACP</h3>
+                                <p class="text-stone-300 text-sm">Agentic Commerce Protocol</p>
+                            </div>
+                            <span class="text-2xl">🤝</span>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <p class="text-stone-600 text-sm">Focuses on direct interaction between AI agents and merchants.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-teal-500 mr-2">✓</span>
+                                <span class="text-sm text-stone-700">Explore products & initiate purchases</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-500 mr-2">✓</span>
+                                <span class="text-sm text-stone-700">Merchants retain control of price</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- UCP Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-teal-700 p-6 text-white">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold">UCP</h3>
+                                <p class="text-teal-200 text-sm">Universal Commerce Protocol</p>
+                            </div>
+                            <span class="text-2xl">🌐</span>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <p class="text-stone-600 text-sm">Standardizes the entire commerce flow (Discovery → Checkout).</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-teal-500 mr-2">✓</span>
+                                <span class="text-sm text-stone-700">Shared language for product data</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-500 mr-2">✓</span>
+                                <span class="text-sm text-stone-700">Reliable cross-platform completion</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Impact Analysis -->
+        <section id="impact" class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8 md:p-12">
+            <div class="max-w-3xl mb-10">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Why This Matters</h2>
+                <p class="text-stone-600">
+                    The shift to Agentic Commerce changes the value proposition for both users and businesses.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="w-full">
+                     <div class="bg-stone-50 rounded-xl p-4 border border-stone-100">
+                        <h4 class="text-sm font-bold text-stone-500 uppercase mb-4 text-center">Efficiency vs. Friction</h4>
+                        <div class="chart-container">
+                            <canvas id="impactChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="relative pl-6 border-l-4 border-teal-500">
+                        <h3 class="text-xl font-bold text-stone-800 mb-2">For Users</h3>
+                        <p class="text-stone-600 text-sm">Cognitive load is removed. Decision making is prioritized over navigation.</p>
+                    </div>
+                    <div class="relative pl-6 border-l-4 border-amber-500">
+                        <h3 class="text-xl font-bold text-stone-800 mb-2">For Businesses</h3>
+                        <p class="text-stone-600 text-sm">New discovery channels open up beyond traditional SEO and search ads.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t border-stone-200 pt-12 pb-8 text-center">
+            <div class="text-xs text-stone-400">
+                Generated Interactive Report • Based on "Agentic Commerce" Analysis
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        const state = { mode: 'traditional', simulationRunning: false };
+        const els = {
+            btnTraditional: document.getElementById('btn-traditional'),
+            btnAgentic: document.getElementById('btn-agentic'),
+            flowTraditional: document.getElementById('flow-traditional'),
+            flowAgentic: document.getElementById('flow-agentic'),
+            simText: document.getElementById('sim-text'),
+            simBtn: document.getElementById('simulate-btn')
+        };
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function setMode(mode) {
+            state.mode = mode;
+            if (mode === 'traditional') {
+                els.btnTraditional.classList.add('bg-white', 'text-stone-800', 'shadow-sm');
+                els.btnTraditional.classList.remove('text-stone-500');
+                els.btnAgentic.classList.remove('bg-white', 'text-stone-800', 'shadow-sm');
+                els.btnAgentic.classList.add('text-stone-500');
+                els.flowTraditional.classList.remove('hidden', 'opacity-0');
+                els.flowAgentic.classList.add('hidden', 'opacity-0');
+            } else {
+                els.btnAgentic.classList.add('bg-white', 'text-stone-800', 'shadow-sm');
+                els.btnAgentic.classList.remove('text-stone-500');
+                els.btnTraditional.classList.remove('bg-white', 'text-stone-800', 'shadow-sm');
+                els.btnTraditional.classList.add('text-stone-500');
+                els.flowTraditional.classList.add('hidden', 'opacity-0');
+                els.flowAgentic.classList.remove('hidden');
+                setTimeout(() => els.flowAgentic.classList.remove('opacity-0'), 10);
+            }
+        }
+
+        async function runSimulation() {
+            if (state.simulationRunning) return;
+            state.simulationRunning = true;
+            els.simBtn.disabled = true;
+            els.simBtn.classList.add('opacity-50');
+
+            const steps = state.mode === 'traditional' 
+                ? ['t-step-1', 't-step-2', 't-step-3', 't-step-4']
+                : ['a-step-1', 'a-step-2'];
+            
+            const delay = state.mode === 'traditional' ? 700 : 350;
+            els.simText.innerText = "Simulating journey...";
+            
+            document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+
+            for (let i = 0; i < steps.length; i++) {
+                const stepEl = document.getElementById(steps[i]);
+                stepEl.classList.add('active');
+                await new Promise(r => setTimeout(r, delay));
+                if (i < steps.length - 1) stepEl.classList.remove('active');
+            }
+
+            els.simText.innerText = "Success.";
+            setTimeout(() => {
+                state.simulationRunning = false;
+                els.simBtn.disabled = false;
+                els.simBtn.classList.remove('opacity-50');
+                els.simText.innerText = "Click to run again";
+                document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+            }, 1500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('impactChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Steps', 'Channels'],
+                    datasets: [
+                        { label: 'Traditional', data: [8, 3], backgroundColor: '#D6D3D1', borderRadius: 6 },
+                        { label: 'Agentic', data: [2, 9], backgroundColor: '#0D9488', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { beginAtZero: true, ticks: { display: false } } }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
