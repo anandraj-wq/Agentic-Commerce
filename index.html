@@ -33,19 +33,25 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        .case-study-card:hover { transform: translateY(-4px); }
+        .example-card { transition: all 0.2s ease-in-out; }
+        .example-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         
-        .flow-container {
-            perspective: 1000px;
+        .pulse-ring {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        @keyframes flow {
-            from { stroke-dashoffset: 24; }
-            to { stroke-dashoffset: 0; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .5; transform: scale(1.05); }
         }
-        .flow-line {
-            stroke-dasharray: 8 4;
-            animation: flow 1s linear infinite;
+
+        .loop-animation {
+            animation: rotate-loop 4s linear infinite;
+        }
+
+        @keyframes rotate-loop {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -60,8 +66,8 @@
             </div>
             <nav class="hidden md:flex space-x-6">
                 <button onclick="scrollToSection('workflow')" class="text-xs font-bold uppercase tracking-widest text-stone-500 hover:text-teal-600 transition-colors">Evolution</button>
+                <button onclick="scrollToSection('how-it-works')" class="text-xs font-bold uppercase tracking-widest text-stone-500 hover:text-teal-600 transition-colors">Architecture</button>
                 <button onclick="scrollToSection('examples')" class="text-xs font-bold uppercase tracking-widest text-stone-500 hover:text-teal-600 transition-colors">Examples</button>
-                <button onclick="scrollToSection('references')" class="text-xs font-bold uppercase tracking-widest text-stone-500 hover:text-teal-600 transition-colors">Sources</button>
             </nav>
         </div>
     </header>
@@ -72,160 +78,197 @@
         <section class="text-center space-y-6">
             <div class="inline-block px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-xs font-semibold tracking-wide uppercase">The Paradigm Shift</div>
             <h1 class="text-4xl md:text-6xl font-bold text-stone-900 leading-tight">
-                From "Search & Click"<br>to <span class="text-teal-600 italic">"Intent & Purchase"</span>
+                From "Manual Exploration"<br>to <span class="text-teal-600 italic">"Autonomous Workflows"</span>
             </h1>
             <p class="text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed">
-                Online shopping is transitioning from a manual task to a delegated outcome. Discover how AI agents are orchestrating the entire retail journey from discovery to delivery.
+                Online shopping is evolving into a delegated outcome. In Phase 2, agents don't just search; they <strong>reason, critique, and execute</strong> transactions across protocols.
             </p>
         </section>
 
         <!-- The Evolution of the Journey -->
         <section id="workflow" class="bg-white rounded-3xl shadow-sm border border-stone-200 p-8 md:p-16">
             <div class="max-w-3xl mx-auto text-center mb-12">
-                <h2 class="text-3xl font-bold text-stone-800 mb-4">The Evolution of the Journey</h2>
-                <p class="text-stone-500">A systematic comparison between <strong>Human-Centric Browsing</strong> and <strong>Agent-Centric Orchestration</strong>.</p>
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Operational Evolution</h2>
+                <p class="text-stone-500">Compare the friction-filled <strong>Phase 1</strong> with the seamless <strong>Phase 2</strong> agentic loop.</p>
             </div>
 
             <!-- Mode Selector -->
             <div class="flex justify-center mb-16">
                 <div class="bg-stone-100 p-1 rounded-2xl inline-flex shadow-inner">
                     <button id="btn-traditional" onclick="setMode('traditional')" class="px-8 py-3 rounded-xl text-sm font-bold transition-all bg-white text-stone-800 shadow-md">
-                        Phase 1: Manual Navigation
+                        Phase 1: Manual Steps
                     </button>
                     <button id="btn-agentic" onclick="setMode('agentic')" class="px-8 py-3 rounded-xl text-sm font-bold transition-all text-stone-500">
-                        Phase 2: Autonomous Orchestration
+                        Phase 2: Agentic Workflow
                     </button>
                 </div>
             </div>
 
-            <!-- Simulation Stage -->
-            <div class="flow-container relative min-h-[250px] flex items-center justify-center">
+            <div class="flow-container relative min-h-[400px] flex items-center justify-center">
+                <!-- Traditional Flow -->
                 <div id="flow-traditional" class="w-full grid grid-cols-2 md:grid-cols-4 gap-4 transition-all duration-500">
-                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center flex flex-col items-center" id="t-step-1">
-                        <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-xl mb-4">🔍</div>
-                        <h4 class="font-bold text-stone-800 text-xs uppercase tracking-widest mb-2">Discovery</h4>
-                        <p class="text-[10px] text-stone-400">Manual keyword search across tabs</p>
+                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center" id="t-step-1">
+                        <div class="text-2xl mb-2">🔍</div>
+                        <h4 class="font-bold text-stone-800 text-[10px] uppercase mb-2">Search</h4>
+                        <p class="text-[10px] text-stone-400">10+ Tabs opened</p>
                     </div>
-                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center flex flex-col items-center" id="t-step-2">
-                        <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-xl mb-4">⚖️</div>
-                        <h4 class="font-bold text-stone-800 text-xs uppercase tracking-widest mb-2">Evaluation</h4>
-                        <p class="text-[10px] text-stone-400">Cognitive load: Comparing prices & reviews</p>
+                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center" id="t-step-2">
+                        <div class="text-2xl mb-2">⚖️</div>
+                        <h4 class="font-bold text-stone-800 text-[10px] uppercase mb-2">Compare</h4>
+                        <p class="text-[10px] text-stone-400">Manual review checking</p>
                     </div>
-                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center flex flex-col items-center" id="t-step-3">
-                        <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-xl mb-4">🖱️</div>
-                        <h4 class="font-bold text-stone-800 text-xs uppercase tracking-widest mb-2">Selection</h4>
-                        <p class="text-[10px] text-stone-400">Manual sizing and inventory check</p>
+                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center" id="t-step-3">
+                        <div class="text-2xl mb-2">🛒</div>
+                        <h4 class="font-bold text-stone-800 text-[10px] uppercase mb-2">Add to Cart</h4>
+                        <p class="text-[10px] text-stone-400">Checking sizing/stock</p>
                     </div>
-                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center flex flex-col items-center" id="t-step-4">
-                        <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-xl mb-4">💳</div>
-                        <h4 class="font-bold text-stone-800 text-xs uppercase tracking-widest mb-2">Settlement</h4>
-                        <p class="text-[10px] text-stone-400">Multi-page checkout & data entry</p>
+                    <div class="step-card bg-white border border-stone-200 p-6 rounded-2xl text-center" id="t-step-4">
+                        <div class="text-2xl mb-2">💳</div>
+                        <h4 class="font-bold text-stone-800 text-[10px] uppercase mb-2">Checkout</h4>
+                        <p class="text-[10px] text-stone-400">Manual data entry</p>
                     </div>
                 </div>
 
-                <div id="flow-agentic" class="w-full flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 absolute top-0 left-0 h-full hidden opacity-0 transition-opacity duration-500">
-                    <div class="step-card bg-teal-50 border-2 border-teal-100 p-10 rounded-[2.5rem] text-center w-full md:w-5/12 relative overflow-hidden" id="a-step-1">
-                        <div class="relative z-10">
-                            <div class="text-4xl mb-4">🗣️</div>
-                            <h4 class="font-bold text-teal-900 text-lg">Intent Signal</h4>
-                            <p class="text-sm text-teal-600 mt-2 font-medium italic">"Find & buy travel gear for Goa within ₹5k"</p>
+                <!-- Agentic Workflow (Non-Linear) -->
+                <div id="flow-agentic" class="w-full hidden opacity-0 transition-opacity duration-500 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="p-8 bg-teal-50 border border-teal-200 rounded-[2.5rem] text-center w-full md:w-1/3" id="a-step-1">
+                            <span class="text-xs font-bold text-teal-800 uppercase tracking-widest">Intent Signal</span>
+                            <p class="text-xs text-teal-600 mt-2 italic">"Find best wireless headphones < ₹3,000"</p>
                         </div>
-                    </div>
-                    <div class="flex items-center justify-center px-8 text-teal-300 animate-pulse hidden md:flex">
-                        <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10H38M38 10L30 2M38 10L30 18" stroke="currentColor" stroke-width="2" class="flow-line"/>
-                        </svg>
-                    </div>
-                    <div class="step-card bg-teal-900 border border-teal-800 p-10 rounded-[2.5rem] text-center w-full md:w-5/12 shadow-2xl relative" id="a-step-2">
-                        <div class="text-4xl mb-4">⚡</div>
-                        <h4 class="font-bold text-white text-lg uppercase tracking-tighter">Autonomous Fulfillment</h4>
-                        <p class="text-xs text-teal-300 mt-2">Discovery, Negotiation, & Payment settled via UCP Protocol</p>
-                    </div>
+                        <div class="relative w-24 h-24 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-teal-500/20 rounded-full loop-animation"></div>
+                            <div class="relative z-10 w-16 h-16 bg-stone-900 rounded-2xl shadow-xl flex items-center justify-center text-2xl text-white">🤖</div>
+                        </div>
+                        <div class="p-8 bg-stone-900 border border-stone-800 rounded-[2.5rem] w-full md:w-1/2 overflow-hidden shadow-2xl" id="a-step-2">
+                             <div class="flex items-center justify-between mb-4 border-b border-stone-800 pb-2">
+                                <h4 class="text-white text-[10px] font-bold uppercase tracking-widest">Reasoning Loop (UCP/ACP)</h4>
+                                <span class="text-teal-400 text-[10px] animate-pulse">● EXECUTING</span>
+                             </div>
+                             <div class="space-y-2 font-mono text-[9px] text-stone-400">
+                                <p>&gt; Querying Market... Found 14 items.</p>
+                                <p>&gt; Critiquing: Merchant_A reviews < 4.2★. Rejected.</p>
+                                <p>&gt; Best Match: Merchant_B (₹2,699). Warranty verified.</p>
+                                <p class="text-teal-400 font-bold">&gt; SECURE HANDSHAKE COMPLETED</p>
+                             </div>
+                        </div>
                 </div>
             </div>
 
-            <!-- Controls -->
-            <div class="mt-16 text-center space-y-6">
-                <button id="simulate-btn" onclick="runSimulation()" class="bg-stone-900 text-white px-10 py-4 rounded-2xl font-bold text-sm hover:bg-stone-800 transition-all transform active:scale-95 shadow-lg flex items-center justify-center mx-auto space-x-3">
+            <div class="mt-12 text-center">
+                <button id="simulate-btn" onclick="runSimulation()" class="bg-stone-900 text-white px-10 py-4 rounded-2xl font-bold text-sm hover:bg-stone-800 transition-all flex items-center justify-center mx-auto space-x-3">
                     <span id="btn-icon">▶</span>
-                    <span>Start Evolutionary Audit</span>
+                    <span>Test Execution Logic</span>
                 </button>
-                <p id="sim-text" class="text-[10px] text-stone-400 font-mono uppercase tracking-[0.3em]">System IDLE</p>
+                <p id="sim-text" class="text-[10px] text-stone-400 font-mono mt-4 uppercase tracking-[0.2em]">System Standby</p>
             </div>
         </section>
 
-        <!-- Examples and Use Cases Section -->
+        <!-- Use Cases Section -->
         <section id="examples" class="space-y-16">
             <div class="text-center space-y-4">
-                <h2 class="text-4xl font-bold text-stone-800">Examples & Use Cases</h2>
-                <p class="text-stone-500 max-w-2xl mx-auto">Bridging the gap between theory and real-world application, powered by Agentic AI architectures.</p>
+                <h2 class="text-4xl font-bold text-stone-800">Agentic Use Cases & Scenarios</h2>
+                <p class="text-stone-500 max-w-2xl mx-auto">Real-world examples of how Phase 2 orchestration transforms retail across categories.</p>
             </div>
 
-            <!-- Case Study: Consumer Side -->
-            <div class="bg-white rounded-[3rem] border border-stone-200 overflow-hidden shadow-sm">
-                <div class="grid grid-cols-1 lg:grid-cols-2">
-                    <div class="p-10 md:p-16 space-y-8">
-                        <div class="inline-flex items-center space-x-2 text-teal-600 font-bold uppercase tracking-widest text-xs">
-                            <span class="w-8 h-[1px] bg-teal-600"></span>
-                            <span>Consumer Side Example</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Example 1: Corporate Fashion -->
+                <div class="example-card bg-white p-8 rounded-[2rem] border border-stone-200 shadow-sm flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider tracking-widest">Corporate Fashion</span>
+                        <span class="text-xl">👔</span>
+                    </div>
+                    <div class="space-y-4 flex-grow">
+                        <div>
+                            <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">🗣️ User Prompt</p>
+                            <p class="text-sm italic text-stone-700">“Joined a new office. Find me 2 formal outfits under ₹8,000.”</p>
                         </div>
-                        <h3 class="text-3xl font-bold leading-tight text-stone-900">The Personal Shopping Agent</h3>
-                        <div class="bg-stone-50 border-l-4 border-teal-500 p-6 italic text-stone-600">
-                            "I’m traveling to Goa next month. Find me a comfortable travel outfit within ₹5,000 and place the order."
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2 border border-stone-100">
+                            <p class="text-[10px] font-bold text-teal-600 uppercase tracking-widest">🤖 Agent Reasoning</p>
+                            <p class="text-[11px] leading-relaxed text-stone-600 italic">Analyzes measurements → Polling UCP for 'Wrinkle-Free' tags → Cross-references fit reviews → Executes order via ACP.</p>
                         </div>
-                        <div class="space-y-4">
-                            <h4 class="font-bold text-stone-800">The Agent's Autonomous Workflow:</h4>
-                            <ul class="space-y-3">
-                                <li class="flex items-start space-x-3 text-sm">
-                                    <div class="mt-1 bg-teal-100 text-teal-700 rounded-full p-1 text-[8px] font-bold">1</div>
-                                    <p><strong>Contextual Discovery:</strong> Scans multiple retailers based on Goa's weather and user style preferences.</p>
-                                </li>
-                                <li class="flex items-start space-x-3 text-sm">
-                                    <div class="mt-1 bg-teal-100 text-teal-700 rounded-full p-1 text-[8px] font-bold">2</div>
-                                    <p><strong>Comparative Logic:</strong> Evaluates shirts, shorts, and shoes against the ₹5,000 budget constraint.</p>
-                                </li>
-                                <li class="flex items-start space-x-3 text-sm">
-                                    <div class="mt-1 bg-teal-100 text-teal-700 rounded-full p-1 text-[8px] font-bold">3</div>
-                                    <p><strong>Frictionless Execution:</strong> Verifies sizing, availability, and completes checkout with user permission.</p>
-                                </li>
+                        <div class="text-xs font-mono space-y-1">
+                            <div class="flex justify-between"><span>Trousers (2) + Shirts (2)</span><span class="text-teal-600 font-bold">₹7,800</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 2: Electronics (New) -->
+                <div class="example-card bg-white p-8 rounded-[2rem] border border-stone-200 shadow-sm flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="bg-purple-50 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-widest">Electronics</span>
+                        <span class="text-xl">🎧</span>
+                    </div>
+                    <div class="space-y-4 flex-grow">
+                        <div>
+                            <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">🗣️ User Prompt</p>
+                            <p class="text-sm italic text-stone-700">“Buy wireless headphones under ₹3,000 with good reviews.”</p>
+                        </div>
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2 border border-stone-100">
+                            <p class="text-[10px] font-bold text-teal-600 uppercase tracking-widest">🤖 Agent Reasoning</p>
+                            <ul class="text-[11px] leading-relaxed text-stone-600 list-disc pl-4">
+                                <li>Filters by rating (4★+)</li>
+                                <li>Compares battery life vs warranty</li>
+                                <li>Applies auto-coupons across sellers</li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="bg-stone-100 flex items-center justify-center p-12 relative overflow-hidden">
-                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#0d9488_1px,transparent_1px)] [background-size:20px_20px]"></div>
-                        <div class="relative bg-white p-8 rounded-3xl shadow-xl w-full max-w-sm space-y-6 border border-stone-200">
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs font-bold text-stone-400">SHOPPING_SESSION_449</div>
-                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            </div>
-                            <div class="space-y-3">
-                                <div class="h-4 bg-stone-100 rounded w-3/4"></div>
-                                <div class="h-4 bg-stone-100 rounded w-1/2"></div>
-                            </div>
-                            <div class="pt-4 border-t border-stone-100 space-y-4">
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="text-stone-500">Total Budget</span>
-                                    <span class="font-bold">₹5,000.00</span>
-                                </div>
-                                <div class="bg-teal-600 text-white text-center py-3 rounded-xl font-bold text-sm">Confirm Purchase</div>
-                            </div>
+                        <div class="text-xs font-mono space-y-1">
+                            <div class="flex justify-between"><span>Wireless Headphones</span><span class="text-teal-600 font-bold">₹2,699</span></div>
+                            <div class="text-[9px] text-stone-400 tracking-tight italic">Verified 1-year warranty included.</div>
+                        </div>
+                        <div class="pt-2 border-t border-stone-100 flex gap-2 flex-wrap">
+                            <span class="px-2 py-1 bg-stone-100 rounded text-[9px] text-stone-500 font-bold">Review-Driven</span>
+                            <span class="px-2 py-1 bg-stone-100 rounded text-[9px] text-stone-500 font-bold">Quick-Decision</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- More Use Cases -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Content Generation -->
-                <div class="p-8 bg-white border border-stone-200 rounded-[2.5rem] space-y-6 shadow-sm">
-                    <h4 class="text-xl font-bold text-stone-900">Hyper-Personalized Content</h4>
-                    <p class="text-stone-500 text-sm leading-relaxed">Agents generate <strong>dynamic marketing collateral</strong> tailored to a specific user's visual aesthetic and cultural context.</p>
+                <!-- Example 3: Education Essentials -->
+                <div class="example-card bg-white p-8 rounded-[2rem] border border-stone-200 shadow-sm flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="bg-orange-50 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-widest">Education</span>
+                        <span class="text-xl">🎒</span>
+                    </div>
+                    <div class="space-y-4 flex-grow">
+                        <div>
+                            <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">🗣️ User Prompt</p>
+                            <p class="text-sm italic text-stone-700">“Child starting Class 3. Buy school essentials under ₹6,000.”</p>
+                        </div>
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2 border border-stone-100">
+                            <p class="text-[10px] font-bold text-teal-600 uppercase tracking-widest">🤖 Agent Reasoning</p>
+                            <p class="text-[11px] leading-relaxed text-stone-600 italic">Identifies grade kit requirements → Optimizes shipping for consolidated arrival → Checks BPA-free material certification.</p>
+                        </div>
+                        <div class="text-xs font-mono space-y-1">
+                            <div class="flex justify-between"><span>Full Kit (6 Items)</span><span class="text-teal-600 font-bold">₹5,700</span></div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Logistics -->
-                <div class="p-8 bg-stone-900 text-white rounded-[2.5rem] space-y-6 shadow-lg border-t-4 border-t-teal-400">
-                    <h4 class="text-xl font-bold">Supply Chain Agility</h4>
-                    <p class="text-stone-400 text-sm leading-relaxed">Front-end Intent linked to Back-end Supply Chain. Agents communicate with warehouse systems to reroute stock in real-time.</p>
+                <!-- Example 4: Travel Orchestration (Added for Depth) -->
+                <div class="example-card bg-white p-8 rounded-[2rem] border border-stone-200 shadow-sm flex flex-col h-full lg:col-span-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="bg-teal-50 text-teal-600 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-widest">Travel & Mobility</span>
+                        <span class="text-xl">✈️</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">🗣️ User Prompt</p>
+                            <p class="text-sm italic text-stone-700">“Business trip to Mumbai on Tuesday. 4-star hotel near BKC, max ₹12,000/night. Book it.”</p>
+                        </div>
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2 border border-stone-100">
+                            <p class="text-[10px] font-bold text-teal-600 uppercase tracking-widest">🤖 Agent reasoning loop</p>
+                            <p class="text-[11px] leading-relaxed text-stone-600 italic">Scans real-time inventory via UCP → Critiques distance to BKC vs peak hour traffic → Self-corrects to Merchant_B for better cancellation policy → Signs ACP booking.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Agentic Wins -->
+                <div class="example-card bg-stone-900 text-white p-8 rounded-[2rem] flex flex-col justify-center shadow-xl">
+                    <h4 class="text-xl font-bold mb-4 font-serif">The Agentic Edge</h4>
+                    <ul class="space-y-4 text-xs">
+                        <li class="flex items-start space-x-3"><span class="text-teal-400 font-bold">✓</span><span><strong>Zero Tab Fatigue:</strong> No manual comparison needed.</span></li>
+                        <li class="flex items-start space-x-3"><span class="text-teal-400 font-bold">✓</span><span><strong>Goal Oriented:</strong> Agent critiques findings until the user's intent is met.</span></li>
+                        <li class="flex items-start space-x-3"><span class="text-teal-400 font-bold">✓</span><span><strong>Secure Checkout:</strong> Transactions occur at the protocol level (ACP).</span></li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -237,22 +280,20 @@
                 <span>Sources & Further Reading</span>
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <a href="https://cloud.google.com/transform/a-new-era-agentic-commerce-retail-ai" target="_blank" class="group p-6 rounded-2xl bg-stone-50 hover:bg-teal-50 border border-stone-100 transition-all">
-                    <h5 class="font-bold text-stone-800 group-hover:text-teal-700 transition-colors">A New Era: Agentic Commerce</h5>
-                    <p class="text-xs text-stone-500 mt-2">Exploration of how Agentic AI transforms retail through Gemini and Google Cloud infrastructure.</p>
-                    <div class="mt-4 text-[10px] text-teal-600 font-bold tracking-widest uppercase">Visit Google Cloud →</div>
+                <a href="https://lollypop.design/blog/2025/august/agentic-workflows/" target="_blank" class="group p-6 rounded-2xl bg-stone-50 hover:bg-teal-50 border border-stone-100 transition-all">
+                    <h5 class="font-bold text-stone-800 group-hover:text-teal-700 transition-colors">UX for Agentic Workflows (Lollypop Research)</h5>
+                    <p class="text-xs text-stone-500 mt-2">Analysis on designing the iterative 'Reasoning Loop' for AI agents.</p>
                 </a>
-                <a href="https://insights.daffodilsw.com/blog/top-8-agentic-ai-use-cases-in-e-commerce" target="_blank" class="group p-6 rounded-2xl bg-stone-50 hover:bg-teal-50 border border-stone-100 transition-all">
-                    <h5 class="font-bold text-stone-800 group-hover:text-teal-700 transition-colors">Top 8 Agentic AI Use Cases</h5>
-                    <p class="text-xs text-stone-500 mt-2">Deep dive into content generation, supply chain automation, and personalized shopping logic.</p>
-                    <div class="mt-4 text-[10px] text-teal-600 font-bold tracking-widest uppercase">Visit Daffodil Insights →</div>
+                <a href="https://searchengineland.com/google-universal-commerce-protocol-467290" target="_blank" class="group p-6 rounded-2xl bg-stone-50 hover:bg-teal-50 border border-stone-100 transition-all">
+                    <h5 class="font-bold text-stone-800 group-hover:text-teal-700 transition-colors">Google UCP Standards</h5>
+                    <p class="text-xs text-stone-500 mt-2">The underlying protocol enabling standardized machine-to-machine commerce.</p>
                 </a>
             </div>
         </section>
 
         <footer class="pt-12 pb-24 text-center">
             <div class="text-xs text-stone-400 font-medium uppercase tracking-[0.2em]">
-                Systematic Analysis: Agentic Commerce Protocol v3.0
+                Systematic Evolution: Phase 1 vs Phase 2
             </div>
             <p class="text-xs text-stone-400 mt-2">© 2026 Innovation Brief • Research Integrated</p>
         </footer>
@@ -284,14 +325,12 @@
             state.mode = mode;
             if (mode === 'traditional') {
                 els.btnTraditional.classList.add('bg-white', 'text-stone-800', 'shadow-md');
-                els.btnTraditional.classList.remove('text-stone-500');
                 els.btnAgentic.classList.remove('bg-white', 'text-stone-800', 'shadow-md');
                 els.btnAgentic.classList.add('text-stone-500');
                 els.flowTraditional.classList.remove('hidden', 'opacity-0');
                 els.flowAgentic.classList.add('hidden', 'opacity-0');
             } else {
                 els.btnAgentic.classList.add('bg-white', 'text-stone-800', 'shadow-md');
-                els.btnAgentic.classList.remove('text-stone-500');
                 els.btnTraditional.classList.remove('bg-white', 'text-stone-800', 'shadow-md');
                 els.btnTraditional.classList.add('text-stone-500');
                 els.flowTraditional.classList.add('hidden', 'opacity-0');
@@ -311,15 +350,13 @@
                 ? ['t-step-1', 't-step-2', 't-step-3', 't-step-4']
                 : ['a-step-1', 'a-step-2'];
             
-            const delay = state.mode === 'traditional' ? 800 : 600;
-            els.simText.innerText = state.mode === 'traditional' ? "Tracing manual friction..." : "Auditing autonomous logic...";
-            
-            document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+            els.simText.innerText = "Initializing Trace...";
+            document.querySelectorAll('.step-card, div[id^="a-step"]').forEach(el => el.classList.remove('active'));
 
             for (let i = 0; i < steps.length; i++) {
                 const stepEl = document.getElementById(steps[i]);
                 stepEl.classList.add('active');
-                await new Promise(r => setTimeout(r, delay));
+                await new Promise(r => setTimeout(r, 1200));
                 if (i < steps.length - 1) stepEl.classList.remove('active');
             }
 
@@ -329,9 +366,9 @@
                 els.simBtn.disabled = false;
                 els.simBtn.classList.remove('opacity-50');
                 els.btnIcon.innerText = "▶";
-                els.simText.innerText = "System IDLE";
-                document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
-            }, 1200);
+                els.simText.innerText = "System Standby";
+                document.querySelectorAll('.step-card, div[id^="a-step"]').forEach(el => el.classList.remove('active'));
+            }, 1000);
         }
     </script>
 </body>
